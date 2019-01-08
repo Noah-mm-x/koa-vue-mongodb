@@ -2,9 +2,16 @@
 const Koa = require('koa');
 // 用于打开网站
 const opn = require("opn");
-
 // 用于打开文件 
 const fs = require('fs.promised');
+// 解决跨域
+const cors = require('koa-cors')
+// request参数挂载
+const bodyParser = require('koa-bodyparser');
+//session支持
+const session = require("koa-session");
+//返回结果json化  
+const json = require("koa-json")  
 
 const getData = require('./router/get.js')
 
@@ -17,6 +24,10 @@ app.use(async (ctx, next) => {
     ctx.response.body = `首页`;
     await next();
 });
+
+app.use(cors());
+app.use(bodyParser());
+app.use(json());
 
 app.use(getData.routes(),getData.allowedMethods());
 

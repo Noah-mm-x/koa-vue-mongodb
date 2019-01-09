@@ -15,8 +15,8 @@
       </Select>
     </div>
     <div v-show="wayShow == 'price'" class="line-item">价格：
-      <Input v-model="currentObj.minValue" placeholder="最小值" style="width: 100px"/>
-      <Input v-model="currentObj.maxValue" placeholder="最大值" style="width: 100px"/>
+      <Input v-model="currentObj.minVal" placeholder="最小值" style="width: 100px"/>
+      <Input v-model="currentObj.maxVal" placeholder="最大值" style="width: 100px"/>
     </div>
     <Button class="btn" type="primary" @click="handleSearch">搜索</Button>
     <div class="line-item">数据：
@@ -47,8 +47,8 @@ export default {
       currentObj: {
         name: "",
         type: "",
-        minValue: "",
-        maxValue: ""
+        minVal: "",
+        maxVal: ""
       },
       typeList: [
         {
@@ -125,17 +125,20 @@ export default {
         case "type":
           this.handleGetGameByType();
           break;
+        case "price":
+          this.handleGetGameByPrice();
+          break;
         default:
           break;
       }
     },
     handleGetGameByName() {
-      let params = {
-        val: ""
-      };
       this.loading = true;
+
       const apiUrl = "/getGamesByName";
-      params.val = this.currentObj.name;
+      const params = {
+        val: this.currentObj.name
+      };
       this.$http
         .post(apiUrl, params)
         .then(res => {
@@ -155,12 +158,12 @@ export default {
         });
     },
     handleGetGameByType() {
-      let params = {
-        val: ""
-      };
       this.loading = true;
+
       const apiUrl = "/getGamesByType";
-      params.val = this.currentObj.type;
+      const params = {
+        val: this.currentObj.type
+      };
       this.$http
         .post(apiUrl, params)
         .then(res => {
@@ -178,7 +181,33 @@ export default {
         .catch(err => {
           console.log("err", err);
         });
-    }
+    },
+    handleGetGameByPrice() {
+      this.loading = true;
+
+      const apiUrl = "/getGamesByPrice";
+      const params = {
+        minVal: this.currentObj.minVal,
+        maxVal: this.currentObj.maxVal
+      };
+      this.$http
+        .post(apiUrl, params)
+        .then(res => {
+          if (res && res.data && res.data.code && res.data.code == 1) {
+            this.loading = false;
+            const data = res.data.data;
+            this.tableObj.data = data;
+          } else {
+            this.$Message.error({
+              content: res.data.msg,
+              duration: 2
+            });
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    },
   }
 };
 </script>

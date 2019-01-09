@@ -46,7 +46,7 @@ router.post("/getGamesByName", async ctx => {
     // 名字模糊查询
     let reg = new RegExp(val) //正则加入变量的方式
     const result = await switchGames.find({
-        name: { $regex: reg ,$options:"i"}
+        name: { $regex: reg, $options: "i" }
     });
     ctx.response.type = "application/json";
     if (result.length) {
@@ -76,6 +76,56 @@ router.post("/getGamesByType", async ctx => {
     const result = await switchGames.find({
         type: val
     });
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: result
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+            data: result
+        }
+    }
+});
+
+router.post("/getGamesByPrice", async ctx => {
+    const minVal = ctx.request.body && parseInt(ctx.request.body.minVal);
+    const maxVal = ctx.request.body && parseInt(ctx.request.body.maxVal);
+    // if (!minVal && !maxVal) {
+    //     ctx.response.body = {
+    //         code: statusCode.PARAM_ERROR.code,
+    //         msg: statusCode.PARAM_ERROR.msg
+    //     }
+    // }
+    let result;
+    if (minVal && !maxVal) {
+        result = await switchGames.find({
+            price: { $gte: minVal }
+        });
+    } else if (!minVal && maxVal) {
+        result = await switchGames.find({
+            price: { $lte: maxVal }
+        });
+    } else if (minVal && maxVal) {
+        // 坑：菜鸟教程说这样写等同于and,但是不行
+        // result = await switchGames.find({
+        //     price: { $gte: minVal },
+        //     price: { $lte: maxVal }
+        // });
+        result = await switchGames.find({
+            $and: [{ price: { $gte: minVal }, }, { price: { $lte: maxVal }}]
+        });
+    } else {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+    }
+
     ctx.response.type = "application/json";
     if (result.length) {
         ctx.response.body = {

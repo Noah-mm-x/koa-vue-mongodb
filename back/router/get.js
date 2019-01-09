@@ -64,4 +64,32 @@ router.post("/getGamesByName", async ctx => {
     }
 });
 
+router.post("/getGamesByType", async ctx => {
+    const val = ctx.request.body && ctx.request.body.val;
+    if (!val) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+    }
+    // 名字精确查询
+    const result = await switchGames.find({
+        type: val
+    });
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: result
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+            data: result
+        }
+    }
+});
+
 module.exports = router;

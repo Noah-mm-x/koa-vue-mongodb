@@ -122,18 +122,45 @@ export default {
         case "name":
           this.handleGetGameByName();
           break;
+        case "type":
+          this.handleGetGameByType();
+          break;
         default:
           break;
       }
     },
     handleGetGameByName() {
-      let apiUrl = "";
       let params = {
         val: ""
       };
       this.loading = true;
-      apiUrl = "/getGamesByName";
+      const apiUrl = "/getGamesByName";
       params.val = this.currentObj.name;
+      this.$http
+        .post(apiUrl, params)
+        .then(res => {
+          if (res && res.data && res.data.code && res.data.code == 1) {
+            this.loading = false;
+            const data = res.data.data;
+            this.tableObj.data = data;
+          } else {
+            this.$Message.error({
+              content: res.data.msg,
+              duration: 2
+            });
+          }
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    },
+    handleGetGameByType() {
+      let params = {
+        val: ""
+      };
+      this.loading = true;
+      const apiUrl = "/getGamesByType";
+      params.val = this.currentObj.type;
       this.$http
         .post(apiUrl, params)
         .then(res => {

@@ -132,6 +132,9 @@ export default {
           break;
       }
     },
+    tableDataInit() {
+      this.tableObj.data = [];
+    },
     handleGetGameByName() {
       this.loading = true;
 
@@ -147,6 +150,8 @@ export default {
             const data = res.data.data;
             this.tableObj.data = data;
           } else {
+            this.loading = false;
+            this.tableDataInit();
             this.$Message.error({
               content: res.data.msg,
               duration: 2
@@ -172,6 +177,8 @@ export default {
             const data = res.data.data;
             this.tableObj.data = data;
           } else {
+            this.loading = false;
+            this.tableDataInit();
             this.$Message.error({
               content: res.data.msg,
               duration: 2
@@ -198,6 +205,8 @@ export default {
             const data = res.data.data;
             this.tableObj.data = data;
           } else {
+            this.loading = false;
+            this.tableDataInit();
             this.$Message.error({
               content: res.data.msg,
               duration: 2
@@ -207,7 +216,7 @@ export default {
         .catch(err => {
           console.log("err", err);
         });
-    },
+    }
   }
 };
 </script>

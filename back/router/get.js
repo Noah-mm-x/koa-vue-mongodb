@@ -12,28 +12,6 @@ const switchGames = db.get("switch"); //表
 const statusCode = require('./../statusCode')
 
 const router = new Router();
-router.post("/ARPGGames", async ctx => {
-    console.log('ctx', ctx.request.body);
-    let result = await switchGames.find({
-        type: "ARPG"
-    });
-    ctx.response.type = "application/json";
-    if (result.length) {
-        ctx.response.body = {
-            code: statusCode.SUCCESS.code,
-            msg: statusCode.SUCCESS.msg,
-            data: result
-        }
-    }
-});
-
-router.post("/RPGGames", async ctx => {
-    let result = await switchGames.find({
-        type: "RPG"
-    });
-    ctx.response.type = "application/json";
-    ctx.response.body = result;
-});
 
 router.post("/getGamesByName", async ctx => {
     const val = ctx.request.body && ctx.request.body.val;
@@ -42,6 +20,7 @@ router.post("/getGamesByName", async ctx => {
             code: statusCode.PARAM_ERROR.code,
             msg: statusCode.PARAM_ERROR.msg
         }
+        return false;
     }
     // 名字模糊查询
     let reg = new RegExp(val) //正则加入变量的方式
@@ -71,6 +50,7 @@ router.post("/getGamesByType", async ctx => {
             code: statusCode.PARAM_ERROR.code,
             msg: statusCode.PARAM_ERROR.msg
         }
+        return false;
     }
     // 名字精确查询
     const result = await switchGames.find({
@@ -95,12 +75,6 @@ router.post("/getGamesByType", async ctx => {
 router.post("/getGamesByPrice", async ctx => {
     const minVal = ctx.request.body && parseInt(ctx.request.body.minVal);
     const maxVal = ctx.request.body && parseInt(ctx.request.body.maxVal);
-    // if (!minVal && !maxVal) {
-    //     ctx.response.body = {
-    //         code: statusCode.PARAM_ERROR.code,
-    //         msg: statusCode.PARAM_ERROR.msg
-    //     }
-    // }
     let result;
     if (minVal && !maxVal) {
         result = await switchGames.find({
@@ -124,6 +98,7 @@ router.post("/getGamesByPrice", async ctx => {
             code: statusCode.PARAM_ERROR.code,
             msg: statusCode.PARAM_ERROR.msg
         }
+        return false;
     }
 
     ctx.response.type = "application/json";

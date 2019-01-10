@@ -96,6 +96,11 @@ table {
 input{
     outline: none;
 }
+// 公用容器
+.cs-container{
+    padding-left: 30px;
+    padding-right: 30px;
+}
 
 // 省略号 
 @mixin dot($width:100px) {

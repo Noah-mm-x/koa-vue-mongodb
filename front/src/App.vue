@@ -10,8 +10,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #app {
   /* background: #f5f7fa; */
 }
 </style>
+<style lang="scss">
+@import './src/assets/css/common.scss';
+</style>
+

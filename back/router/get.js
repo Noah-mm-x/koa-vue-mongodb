@@ -150,4 +150,22 @@ router.post("/addData", async ctx => {
     }
 });
 
+router.post("/getAllData", async ctx => {
+    const result = await switchGames.find({});
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: result
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+            data: result
+        }
+    }
+});
+
 module.exports = router;

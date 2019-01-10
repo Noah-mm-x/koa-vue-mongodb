@@ -117,4 +117,37 @@ router.post("/getGamesByPrice", async ctx => {
     }
 });
 
+router.post("/addData", async ctx => {
+    const name = ctx.request.body && ctx.request.body.name;
+    const type = ctx.request.body && ctx.request.body.type;
+    const price = ctx.request.body && ctx.request.body.price;
+    if (!name || !type || !price) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
+    await switchGames.insert({
+        name: name,
+        type: type,
+        price: price
+    });
+    const result = await switchGames.find({
+        name: name
+    });
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg
+        }
+    }
+});
+
 module.exports = router;

@@ -91,7 +91,7 @@ router.post("/getGamesByPrice", async ctx => {
         //     price: { $lte: maxVal }
         // });
         result = await switchGames.find({
-            $and: [{ price: { $gte: minVal }, }, { price: { $lte: maxVal }}]
+            $and: [{ price: { $gte: minVal }, }, { price: { $lte: maxVal } }]
         });
     } else {
         ctx.response.body = {
@@ -168,4 +168,26 @@ router.post("/getAllData", async ctx => {
     }
 });
 
+router.post("/updateData", async ctx => {
+    const sourceName = ctx.request.body && ctx.request.body.sourceName;
+    const targetData = ctx.request.body && ctx.request.body.targetData;
+    if (!sourceName) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
+    let reg = new RegExp(sourceName) 
+    console.log('targetData',targetData);
+    await switchGames.update(
+        { name: { $regex: reg, $options: "i" } },
+        { $set: targetData }
+    );
+    ctx.response.type = "application/json";
+    ctx.response.body = {
+        code: statusCode.SUCCESS.code,
+        msg: statusCode.SUCCESS.msg
+    };
+})
 module.exports = router;

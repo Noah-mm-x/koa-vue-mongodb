@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Index from "@/components/Index";
 import AddData from "@/components/AddData";
 import AllData from "@/components/AllData";
+import UpdateData from "@/components/UpdateData";
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
             path: "/allData",
             name: "AllData",
             component: AllData
+        },
+        {
+            path: "/updateData",
+            name: "UpdateData",
+            component: UpdateData
         }
     ]
 });

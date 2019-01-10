@@ -58,6 +58,54 @@ export default {
         {
           name: "RPG(角色扮演类游戏)",
           param: "RPG"
+        },
+        {
+          name: "AFPS(动作射击类游戏)",
+          param: "AFPS"
+        },
+        {
+          name: "RAC(赛车类游戏)",
+          param: "RAC"
+        },
+        {
+          name: "ACT(动作类游戏)",
+          param: "ACT"
+        },
+        {
+          name: "AVG(冒险类游戏)",
+          param: "AVG"
+        },
+        {
+          name: "EDU(养成类游戏)",
+          param: "EDU"
+        },
+        {
+          name: "FTG(格斗类游戏)",
+          param: "FTG"
+        },
+        {
+          name: "MUD(网络游戏)",
+          param: "MUD"
+        },
+        {
+          name: "MUG(音乐类游戏)",
+          param: "MUG"
+        },
+        {
+          name: "RTS(即时战略类游戏)",
+          param: "RTS"
+        },
+        {
+          name: "SIM(模拟经营类游戏)",
+          param: "SIM"
+        },
+        {
+          name: "SLG(策略战棋类游戏)",
+          param: "SLG"
+        },
+        {
+          name: "TAB(桌面棋类游戏)",
+          param: "TAB"
         }
       ],
       loading: false,
@@ -81,24 +129,9 @@ export default {
     };
   },
   mounted() {
-    // const {data} = await getARPGGamesData()
-    // console.log('data',getARPGGamesData());
-    // getARPGGamesData().then(res=>{
-    //     console.log('res',res);
-    // })
-    // this.getData();
+    
   },
   methods: {
-    // async getData() {
-    //   let params = {
-    //     way: "type",
-    //     val: "ARPG"
-    //   };
-    //   let re = await getARPGGamesData(params);
-    //   console.log("re", re);
-    //   return re;
-    // },
-    // async handleSelectWay(val) {
     currentObjInit() {
       const obj = this.currentObj;
       for (let key in obj) {

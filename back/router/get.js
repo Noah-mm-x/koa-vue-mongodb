@@ -178,8 +178,8 @@ router.post("/updateData", async ctx => {
         }
         return false;
     }
-    let reg = new RegExp(sourceName) 
-    console.log('targetData',targetData);
+    let reg = new RegExp(sourceName)
+    console.log('targetData', targetData);
     await switchGames.update(
         { name: { $regex: reg, $options: "i" } },
         { $set: targetData }
@@ -190,4 +190,50 @@ router.post("/updateData", async ctx => {
         msg: statusCode.SUCCESS.msg
     };
 })
+
+router.post("/sortAllData", async ctx => {
+    const type = ctx.request.body.type;
+    const order = ctx.request.body.order == 'asc' ? 1 : -1;
+    console.log('type', type);
+    if (!type || !order) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
+    // const result = await switchGames.find().sort({[type]:[order]});
+    const result = await switchGames.find();
+    // const result = await switchGames.find().sort({price:-1});
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: result
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+            data: result
+        }
+    }
+});
+
+// 脚本：把所有数据的价格改为num类型
+router.post("/updateDataPriceToNum", async ctx => {
+    const result = await switchGames.find();
+    for (let index = 0; index < result.length; index++) {
+        let item = result[index];
+        (function (item) {
+            item.price = parseInt(item.price);
+            switchGames.update(
+                { _id: item._id },
+                { $set: item }
+            );
+        })(item)
+
+    }
+});
 module.exports = router;

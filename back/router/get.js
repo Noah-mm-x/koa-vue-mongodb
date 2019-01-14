@@ -179,7 +179,6 @@ router.post("/updateData", async ctx => {
         return false;
     }
     let reg = new RegExp(sourceName)
-    console.log('targetData', targetData);
     await switchGames.update(
         { name: { $regex: reg, $options: "i" } },
         { $set: targetData }
@@ -202,9 +201,18 @@ router.post("/sortAllData", async ctx => {
         }
         return false;
     }
-    // const result = await switchGames.find().sort({[type]:[order]});
-    const result = await switchGames.find();
-    // const result = await switchGames.find().sort({price:-1});
+    // const result = await switchGames.find().sort({[type]:order});
+    // const result = await switchGames.find({}).sort({ 'price': 1 });
+    // result = Array.from(result).sort({'price':1})
+    // result = Array.prototype.slice.call(result).sort({'price':1})
+    // 上面写法均不可以
+    let options = {
+        "sort": { [type]: order },
+    };
+    if(ctx.request.body.order == 'normal'){
+        options = {}
+    }
+    const result = await switchGames.find({}, options);
     ctx.response.type = "application/json";
     if (result.length) {
         ctx.response.body = {

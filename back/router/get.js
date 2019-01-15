@@ -13,6 +13,34 @@ const statusCode = require('./../statusCode')
 
 const router = new Router();
 
+router.post("/getGamesById", async ctx => {
+    const id = ctx.request.body && ctx.request.body.id;
+    if (!id) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
+    const result = await switchGames.find({
+        _id: id
+    });
+    ctx.response.type = "application/json";
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: result
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+            data: result
+        }
+    }
+});
+
 router.post("/getGamesByName", async ctx => {
     const val = ctx.request.body && ctx.request.body.val;
     if (!val) {

@@ -146,7 +146,7 @@ export default {
             const targetData = removeTheIllegalDataObject({
                 name: this.name,
                 type: this.type,
-                price: this.price
+                price: parseFloat(this.price) 
             });
             const params = {
                 sourceName: this.sourceName,

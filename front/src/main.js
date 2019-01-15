@@ -10,13 +10,14 @@ import Axios from "./libs/http"
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 
-import { Button, Select, Option, Input, Table,Message } from 'iview';
+import { Button, Select, Option, Input, Table, Message, Page } from 'iview';
 Vue.component('Button', Button);
 Vue.component('Select', Select);
 Vue.component('Option', Option);
 Vue.component('Input', Input);
 Vue.component('Table', Table);
 Vue.component('Message', Message);
+Vue.component('Page', Page);
 Vue.prototype.$Message = Message;
 
 /* eslint-disable no-new */

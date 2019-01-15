@@ -7,6 +7,15 @@
                 :data="tableObj.data"
                 @on-sort-change="handleSort"
             ></Table>
+            <div class="cs-page-wrap">
+                <Page
+                    class="page"
+                    :total="pageOpt.total"
+                    :page-size="pageOpt.size"
+                    :current="pageOpt.current"
+                    @on-change="changePage"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -18,9 +27,9 @@ export default {
             tableObj: {
                 title: [
                     {
-                        type: 'index',
+                        type: "index",
                         width: 100,
-                        align: 'center'
+                        align: "center"
                     },
                     {
                         title: "名字",
@@ -38,11 +47,16 @@ export default {
                     {
                         title: "更新操作",
                         key: "_id",
-                        align: 'center',
+                        align: "center",
                         render: this.updateRender
                     }
                 ],
                 data: []
+            },
+            pageOpt:{
+                total: 0,
+                size: 10,
+                current: 1
             }
         };
     },
@@ -53,7 +67,7 @@ export default {
         getData() {
             this.loading = true;
 
-            const apiUrl = "/getAllData";
+            const apiUrl = "/pageData";
             this.$http
                 .post(apiUrl)
                 .then(res => {
@@ -65,7 +79,8 @@ export default {
                     ) {
                         this.loading = false;
                         const data = res.data.data;
-                        this.tableObj.data = data;
+                        this.tableObj.data = data.list;
+                        this.pageOpt.total = data.allDatalength;
                     } else {
                         this.loading = false;
                         this.$Message.error({
@@ -120,7 +135,7 @@ export default {
                 query: {
                     id: id
                 }
-            })
+            });
         },
         updateRender(h, obj) {
             return h("Button", {
@@ -132,16 +147,49 @@ export default {
                     innerHTML: "更新此项"
                 },
                 nativeOn: {
-                    click: ()=>{
-                        this.linkToUpdate(obj)
+                    click: () => {
+                        this.linkToUpdate(obj);
                     }
                 }
             });
+        },
+        changePage(page) {
+            if (this.loading) return false;
+            this.pageOpt.current = page
+            const apiUrl = "/pageData";
+            let params = {
+                limit: this.pageOpt.size,
+                current: page,
+            };
+            this.$http
+                .post(apiUrl, params)
+                .then(res => {
+                    if (
+                        res &&
+                        res.data &&
+                        res.data.code &&
+                        res.data.code == 1
+                    ) {
+                        this.loading = false;
+                        const data = res.data.data;
+                        this.tableObj.data = data.list;
+                    } else {
+                        this.loading = false;
+                        this.$Message.error({
+                            content: res.data.msg,
+                            duration: 2
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log("err", err);
+                });
         }
     }
 };
 </script>
 <style lang="scss" scoped>
+@import "./../assets/css/common.scss";
 .cs-container {
     margin-top: 10px;
 }

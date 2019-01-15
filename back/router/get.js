@@ -159,7 +159,7 @@ router.post("/addData", async ctx => {
     await switchGames.insert({
         name: name,
         type: type,
-        price: parseFloat(price) 
+        price: parseFloat(price)
     });
     const result = await switchGames.find({
         name: name
@@ -236,7 +236,7 @@ router.post("/sortAllData", async ctx => {
     let options = {
         "sort": { [type]: order },
     };
-    if(ctx.request.body.order == 'normal'){
+    if (ctx.request.body.order == 'normal') {
         options = {}
     }
     const result = await switchGames.find({}, options);
@@ -269,6 +269,58 @@ router.post("/updateDataPriceToNum", async ctx => {
             );
         })(item)
 
+    }
+});
+
+router.post("/pageData", async ctx => {
+    ctx.response.type = "application/json";
+
+    const body = ctx.request.body;
+    let options, result, allResult;
+    if (!body.limit || !body.current) {
+        options = {
+            limit: 10,
+        };
+        result = await switchGames.find({}, options);
+        allResult = await switchGames.find({});
+        if (result.length) {
+            ctx.response.body = {
+                code: statusCode.SUCCESS.code,
+                msg: statusCode.SUCCESS.msg,
+                data: {
+                    list: result,
+                    allDatalength: allResult.length
+                }
+            }
+        } else {
+            ctx.response.body = {
+                code: statusCode.NOT_DATA.code,
+                msg: statusCode.NOT_DATA.msg,
+            }
+        }
+        return false;
+    }
+    const limit = ctx.request.body.limit;
+    const current = ctx.request.body.current - 1;
+    const skip = limit * current;
+    options = {
+        limit: limit,
+        skip: skip
+    };
+    result = await switchGames.find({}, options);
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg,
+            data: {
+                list: result
+            }
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg,
+        }
     }
 });
 module.exports = router;

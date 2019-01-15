@@ -123,3 +123,12 @@ input{
         visibility: hidden;
     }
 }
+
+.cs-page-wrap{
+    @include clearfix;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .page{
+        float: right;
+    }
+}

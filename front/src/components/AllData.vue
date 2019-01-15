@@ -57,6 +57,10 @@ export default {
                 total: 0,
                 size: 10,
                 current: 1
+            },
+            sortObj: {
+                type: 'normal',
+                order: 'asc'
             }
         };
     },
@@ -96,12 +100,17 @@ export default {
         handleSort(obj) {
             if (this.loading) return false;
             this.loading = true;
+            this.pageOpt.current = 1;
+            this.sortObj.type = obj.key;
+            this.sortObj.order = obj.order;
             const type = obj.key;
             const order = obj.order;
             const apiUrl = "/sortAllData";
             const params = {
                 type: type,
-                order: order
+                order: order,
+                limit: this.pageOpt.size,
+                current: this.pageOpt.current,
             };
             this.$http
                 .post(apiUrl, params)
@@ -160,6 +169,8 @@ export default {
             let params = {
                 limit: this.pageOpt.size,
                 current: page,
+                type: this.sortObj.type,
+                order: this.sortObj.order
             };
             this.$http
                 .post(apiUrl, params)

@@ -221,6 +221,9 @@ router.post("/updateData", async ctx => {
 router.post("/sortAllData", async ctx => {
     const type = ctx.request.body.type;
     const order = ctx.request.body.order == 'asc' ? 1 : -1;
+    const limit = ctx.request.body.limit;
+    const current = ctx.request.body.current - 1;
+    const skip = limit * current;
     if (!type || !order) {
         ctx.response.body = {
             code: statusCode.PARAM_ERROR.code,
@@ -234,10 +237,15 @@ router.post("/sortAllData", async ctx => {
     // result = Array.prototype.slice.call(result).sort({'price':1})
     // 上面写法均不可以
     let options = {
-        "sort": { [type]: order },
+        sort: { [type]: order },
+        limit: limit,
+        skip: skip
     };
     if (ctx.request.body.order == 'normal') {
-        options = {}
+        options = {
+            limit: limit,
+            skip: skip
+        }
     }
     const result = await switchGames.find({}, options);
     ctx.response.type = "application/json";
@@ -274,9 +282,15 @@ router.post("/updateDataPriceToNum", async ctx => {
 
 router.post("/pageData", async ctx => {
     ctx.response.type = "application/json";
-
+    const type = ctx.request.body.type;
+    const order = ctx.request.body.order == 'asc' ? 1 : -1;
     const body = ctx.request.body;
+    const limit = ctx.request.body.limit;
+    const current = ctx.request.body.current - 1;
+    const skip = limit * current;
+
     let options, result, allResult;
+    // 进页面的初始数据
     if (!body.limit || !body.current) {
         options = {
             limit: 10,
@@ -300,13 +314,18 @@ router.post("/pageData", async ctx => {
         }
         return false;
     }
-    const limit = ctx.request.body.limit;
-    const current = ctx.request.body.current - 1;
-    const skip = limit * current;
-    options = {
-        limit: limit,
-        skip: skip
-    };
+    if(type == 'normal'){
+        options = {
+            limit: limit,
+            skip: skip
+        };
+    }else{
+        options = {
+            sort: { [type]: order },
+            limit: limit,
+            skip: skip
+        };
+    }
     result = await switchGames.find({}, options);
     if (result.length) {
         ctx.response.body = {

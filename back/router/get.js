@@ -159,7 +159,7 @@ router.post("/addData", async ctx => {
     await switchGames.insert({
         name: name,
         type: type,
-        price: price
+        price: parseFloat(price) 
     });
     const result = await switchGames.find({
         name: name
@@ -221,7 +221,6 @@ router.post("/updateData", async ctx => {
 router.post("/sortAllData", async ctx => {
     const type = ctx.request.body.type;
     const order = ctx.request.body.order == 'asc' ? 1 : -1;
-    console.log('type', type);
     if (!type || !order) {
         ctx.response.body = {
             code: statusCode.PARAM_ERROR.code,
@@ -263,7 +262,7 @@ router.post("/updateDataPriceToNum", async ctx => {
     for (let index = 0; index < result.length; index++) {
         let item = result[index];
         (function (item) {
-            item.price = parseInt(item.price);
+            item.price = parseFloat(item.price);
             switchGames.update(
                 { _id: item._id },
                 { $set: item }

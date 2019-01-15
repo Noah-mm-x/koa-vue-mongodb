@@ -78,6 +78,10 @@ export default {
         {
           name: "TAB(桌面棋类游戏)",
           param: "TAB"
+        },
+        {
+          name: "SPT(体育类游戏)",
+          param: "SPT"
         }
       ]
     };

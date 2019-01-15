@@ -18,6 +18,11 @@ export default {
             tableObj: {
                 title: [
                     {
+                        type: 'index',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
                         title: "名字",
                         key: "name"
                     },

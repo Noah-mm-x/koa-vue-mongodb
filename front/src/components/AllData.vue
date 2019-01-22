@@ -16,6 +16,7 @@
                     @on-change="changePage"
                 />
             </div>
+            <!-- <Button type="primary" @click="handleData">哒哒哒哒哒哒</Button> -->
         </div>
     </div>
 </template>
@@ -27,7 +28,8 @@ export default {
             tableObj: {
                 title: [
                     {
-                        type: "index",
+                        title: "序号",
+                        key: "index",
                         width: 100,
                         align: "center"
                     },
@@ -53,14 +55,14 @@ export default {
                 ],
                 data: []
             },
-            pageOpt:{
+            pageOpt: {
                 total: 0,
                 size: 10,
                 current: 1
             },
             sortObj: {
-                type: 'normal',
-                order: 'asc'
+                type: "normal",
+                order: "asc"
             }
         };
     },
@@ -110,7 +112,7 @@ export default {
                 type: type,
                 order: order,
                 limit: this.pageOpt.size,
-                current: this.pageOpt.current,
+                current: this.pageOpt.current
             };
             this.$http
                 .post(apiUrl, params)
@@ -164,7 +166,7 @@ export default {
         },
         changePage(page) {
             if (this.loading) return false;
-            this.pageOpt.current = page
+            this.pageOpt.current = page;
             const apiUrl = "/pageData";
             let params = {
                 limit: this.pageOpt.size,
@@ -195,7 +197,11 @@ export default {
                 .catch(err => {
                     console.log("err", err);
                 });
-        }
+        },
+        // handleData(){
+        //     const apiUrl = "/updateDataInsertIndex";
+        //     this.$http.post(apiUrl);
+        // }
     }
 };
 </script>

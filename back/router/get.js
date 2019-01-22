@@ -276,7 +276,21 @@ router.post("/updateDataPriceToNum", async ctx => {
                 { $set: item }
             );
         })(item)
+    }
+});
 
+// 脚本：为所有数据添加index
+router.post("/updateDataInsertIndex", async ctx => {
+    const result = await switchGames.find();
+    for (let index = 0; index < result.length; index++) {
+        let item = result[index];
+        (function (item) {
+            item.index = index+1;
+            switchGames.update(
+                { _id: item._id },
+                { $set: item }
+            );
+        })(item)
     }
 });
 

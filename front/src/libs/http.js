@@ -2,14 +2,16 @@
  * @Author: MengFanxu 
  * @Date: 2019-01-07 20:33:21 
  * @Last Modified by: MengFanxu
- * @Last Modified time: 2019-01-14 19:37:03
+ * @Last Modified time: 2019-02-11 18:51:16
  */
 import axios from 'axios'
 import qs from 'qs'
 
 axios.defaults.timeout = 5000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'text/html; charset=utf-8';           //配置请求头
-axios.defaults.baseURL = 'http://localhost:3000';   //配置接口地址
+// axios.defaults.baseURL = 'http://localhost:3000';   //配置接口地址
+axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? 'http://localhost:3000' : 'http://202.5.18.148';   //配置接口地址
+console.log('process.env.API_ROOT',process.env.NODE_ENV);
 
 export default {
     post(url,params = {},cookies={}){

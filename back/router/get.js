@@ -5,7 +5,8 @@ const Monk = require("monk");
 
 const json = require("koa-json")
 
-const db = new Monk("localhost:27017/games"); //链接到库
+// const db = new Monk("localhost:27017/games"); //链接到库
+const db = new Monk("202.5.18.148/games"); //链接到库
 const switchGames = db.get("switch"); //表
 
 // 状态码

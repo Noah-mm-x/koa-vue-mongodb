@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
 }
 body,
@@ -26,15 +26,15 @@ input,
 textarea,
 th,
 td {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 body,
 button,
 input,
 select,
 textarea {
-  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+    font: 12px/1.5tahoma, arial, \5b8b\4f53;
 }
 h1,
 h2,
@@ -42,68 +42,91 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 100%;
+    font-size: 100%;
 }
 address,
 cite,
 dfn,
 em,
 var {
-  font-style: normal;
+    font-style: normal;
 }
 code,
 kbd,
 pre,
 samp {
-  font-family: couriernew, courier, monospace;
+    font-family: couriernew, courier, monospace;
 }
 small {
-  font-size: 12px;
+    font-size: 12px;
 }
 ul,
 ol {
-  list-style: none;
+    list-style: none;
 }
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 sup {
-  vertical-align: text-top;
+    vertical-align: text-top;
 }
 sub {
-  vertical-align: text-bottom;
+    vertical-align: text-bottom;
 }
 legend {
-  color: #000;
+    color: #000;
 }
 fieldset,
 img {
-  border: 0;
+    border: 0;
 }
 button,
 input,
 select,
 textarea {
-  font-size: 100%;
+    font-size: 100%;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
-input{
+input {
     outline: none;
 }
+@import "~sass-rem";
+// $rem-baseline: 10px;
+$rem-baseline: 64px;
+
+html {
+    height: 100%;
+    @include rem-baseline; // Default zoom to 100%
+
+    // @media (max-width: 375px) {
+    //   font-size: 750px;
+    //   @include rem-baseline(117.1875%);
+    // }
+
+    // @media (min-width: 800px) {
+    //   @include rem-baseline(125%);
+    // }
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 // 公用容器
-.cs-container{
+.cs-container {
     padding-left: 30px;
     padding-right: 30px;
 }
 
-// 省略号 
-@mixin dot($width:100px) {
+// 省略号
+@mixin dot($width: 100px) {
     width: $width;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -124,11 +147,11 @@ input{
     }
 }
 
-.cs-page-wrap{
+.cs-page-wrap {
     @include clearfix;
     margin-top: 20px;
     margin-bottom: 20px;
-    .page{
+    .page {
         float: right;
     }
 }

@@ -7,6 +7,13 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Axios from "./libs/http"
 
+import FastClick from 'fastclick'
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 

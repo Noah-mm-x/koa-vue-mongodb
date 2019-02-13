@@ -1,328 +1,107 @@
 <template>
     <div id="index">
-        <div class="line-item">类型：
-            <Select
-                v-model="currentWay"
-                style="width:200px"
-                @on-query-change="handleSelectWay"
+        <swiper
+            :options="swiperOption"
+            class="swiper-wrap"
+            ref="mySwiper"
+            v-if="banner.length!=0"
+        >
+            <swiper-slide
+                v-for="(item,index) in banner"
+                :key="index"
             >
-                <Option
-                    v-for="item in wayList"
-                    :value="item.param"
-                    :key="item.param"
-                >{{ item.name }}</Option>
-            </Select>
-        </div>
-
-        <div
-            v-show="wayShow == 'name'"
-            class="line-item"
-        >名称：
-            <Input
-                v-model="currentObj.name"
-                placeholder="请输入名称"
-                style="width: 200px"
-                name="name"
-            />
-        </div>
-        <div
-            v-show="wayShow == 'type'"
-            class="line-item"
-        >类型：
-            <Select
-                v-model="currentObj.type"
-                style="width:200px"
-                @on-query-change="handleSelectType"
-            >
-                <Option
-                    v-for="item in typeList"
-                    :value="item.param"
-                    :key="item.param"
-                >{{ item.name }}</Option>
-            </Select>
-        </div>
-        <div
-            v-show="wayShow == 'price'"
-            class="line-item"
-        >价格：
-            <Input
-                v-model="currentObj.minVal"
-                placeholder="最小值"
-                style="width: 100px"
-            />
-            <Input
-                v-model="currentObj.maxVal"
-                placeholder="最大值"
-                style="width: 100px"
-            />
-        </div>
-        <Button
-            class="btn"
-            type="primary"
-            @click="handleSearch"
-        >搜索</Button>
-        <div class="line-item">数据：
-            <Table
-                :loading="loading"
-                :columns="tableObj.title"
-                :data="tableObj.data"
-            ></Table>
-        </div>
+                <img
+                    class="img"
+                    :src="item.image"
+                    alt=""
+                />
+            </swiper-slide>
+            <!-- 常见的小圆点 -->
+            <div
+                class="swiper-pagination"
+                v-for="(item,index) in banner"
+                :key="index"
+                slot="pagination"
+            ></div>
+        </swiper>
     </div>
 </template>
 <script>
+import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
     data() {
+        const _self = this;
         return {
-            wayShow: "name",
-            wayList: [
+            banner: [
                 {
-                    name: "名称",
-                    param: "name"
+                    image: require("../assets/images/1.jpg")
                 },
                 {
-                    name: "类型",
-                    param: "type"
+                    image: require("../assets/images/2.jpg")
                 },
                 {
-                    name: "价格",
-                    param: "price"
+                    image: require("../assets/images/3.jpg")
+                },
+                {
+                    image: require("../assets/images/4.jpg")
                 }
             ],
-            currentWay: "",
-            currentObj: {
-                name: "",
-                type: "",
-                minVal: "",
-                maxVal: ""
-            },
-            typeList: [
-                {
-                    name: "ARPG(动作角色扮演类游戏)",
-                    param: "ARPG"
+            imgIndex: 1,
+            swiperOption: {
+                //是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+                notNextTick: true,
+                //循环
+                loop: true,
+                //设定初始化时slide的索引
+                initialSlide: 0,
+                //自动播放
+                autoplay: {
+                    delay: 1500,
+                    stopOnLastSlide: false,
+                    /* 触摸滑动后是否继续轮播 */
+                    disableOnInteraction: false
                 },
-                {
-                    name: "RPG(角色扮演类游戏)",
-                    param: "RPG"
-                },
-                {
-                    name: "AFPS(动作射击类游戏)",
-                    param: "AFPS"
-                },
-                {
-                    name: "RAC(赛车类游戏)",
-                    param: "RAC"
-                },
-                {
-                    name: "ACT(动作类游戏)",
-                    param: "ACT"
-                },
-                {
-                    name: "AVG(冒险类游戏)",
-                    param: "AVG"
-                },
-                {
-                    name: "EDU(养成类游戏)",
-                    param: "EDU"
-                },
-                {
-                    name: "FTG(格斗类游戏)",
-                    param: "FTG"
-                },
-                {
-                    name: "MUD(网络游戏)",
-                    param: "MUD"
-                },
-                {
-                    name: "MUG(音乐类游戏)",
-                    param: "MUG"
-                },
-                {
-                    name: "RTS(即时战略类游戏)",
-                    param: "RTS"
-                },
-                {
-                    name: "SIM(模拟经营类游戏)",
-                    param: "SIM"
-                },
-                {
-                    name: "SLG(策略战棋类游戏)",
-                    param: "SLG"
-                },
-                {
-                    name: "TAB(桌面棋类游戏)",
-                    param: "TAB"
-                }
-            ],
-            loading: false,
-            tableObj: {
-                title: [
-                    {
-                        title: "名字",
-                        key: "name"
-                    },
-                    {
-                        title: "类型",
-                        key: "type"
-                    },
-                    {
-                        title: "价格",
-                        key: "price"
+                //滑动速度
+                speed: 800,
+                //滑动方向
+                direction: "horizontal",
+                //小手掌抓取滑动
+                grabCursor: true,
+                on: {
+                    //滑动之后回调函数
+                    slideChangeTransitionStart() {
+                        /* realIndex为滚动到当前的slide索引值 */
+                        _self.imgIndex = this.realIndex - 1;
                     }
-                ],
-                data: []
+                },
+                //分页器设置
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                    type: "bullets"
+                }
             }
         };
     },
-    mounted() {},
-    methods: {
-        currentObjInit() {
-            const obj = this.currentObj;
-            for (let key in obj) {
-                this.currentObj[key] = "";
-            }
-        },
-        handleSelectWay() {
-            this.wayShow = this.currentWay;
-            this.currentObjInit();
-        },
-        handleSelectType(val) {
-            const type = this.currentObj.type;
-        },
-        handleSearch() {
-            const currentWay = this.currentWay;
-            if (!currentWay) {
-                alert("未选择方式");
-                return false;
-            }
-            switch (currentWay) {
-                case "name":
-                    this.handleGetGameByName();
-                    break;
-                case "type":
-                    this.handleGetGameByType();
-                    break;
-                case "price":
-                    this.handleGetGameByPrice();
-                    break;
-                default:
-                    break;
-            }
-        },
-        tableDataInit() {
-            this.tableObj.data = [];
-        },
-        handleGetGameByName() {
-            this.loading = true;
-
-            const apiUrl = "/getGamesByName";
-            const params = {
-                val: this.currentObj.name
-            };
-            this.$http
-                .post(apiUrl, params)
-                .then(res => {
-                    if (
-                        res &&
-                        res.data &&
-                        res.data.code &&
-                        res.data.code == 1
-                    ) {
-                        this.loading = false;
-                        const data = res.data.data;
-                        this.tableObj.data = data;
-                    } else {
-                        this.loading = false;
-                        this.tableDataInit();
-                        this.$Message.error({
-                            content: res.data.msg,
-                            duration: 2
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log("err", err);
-                });
-        },
-        handleGetGameByType() {
-            this.loading = true;
-
-            const apiUrl = "/getGamesByType";
-            const params = {
-                val: this.currentObj.type
-            };
-            this.$http
-                .post(apiUrl, params)
-                .then(res => {
-                    if (
-                        res &&
-                        res.data &&
-                        res.data.code &&
-                        res.data.code == 1
-                    ) {
-                        this.loading = false;
-                        const data = res.data.data;
-                        this.tableObj.data = data;
-                    } else {
-                        this.loading = false;
-                        this.tableDataInit();
-                        this.$Message.error({
-                            content: res.data.msg,
-                            duration: 2
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log("err", err);
-                });
-        },
-        handleGetGameByPrice() {
-            this.loading = true;
-
-            const apiUrl = "/getGamesByPrice";
-            const params = {
-                minVal: this.currentObj.minVal,
-                maxVal: this.currentObj.maxVal
-            };
-            this.$http
-                .post(apiUrl, params)
-                .then(res => {
-                    if (
-                        res &&
-                        res.data &&
-                        res.data.code &&
-                        res.data.code == 1
-                    ) {
-                        this.loading = false;
-                        const data = res.data.data;
-                        this.tableObj.data = data;
-                    } else {
-                        this.loading = false;
-                        this.tableDataInit();
-                        this.$Message.error({
-                            content: res.data.msg,
-                            duration: 2
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log("err", err);
-                });
-        }
+    components: {
+        swiper,
+        swiperSlide
     }
 };
 </script>
 <style lang="scss" scoped>
-#index {
-    padding-left: 30px;
-    overflow: hidden;
+@import "./src/assets/css/common.scss";
+#index{
+    height: 100%;
 }
-.btn {
-    display: block;
-    margin-top: 10px;
-}
-.line-item {
-    margin-top: 10px;
+.swiper-wrap {
+    .swiper-slide {
+        .img {
+            width: rem(375px);
+            height: rem(196px);
+        }
+    }
 }
 </style>
 

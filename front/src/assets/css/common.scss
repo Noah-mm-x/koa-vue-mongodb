@@ -96,9 +96,13 @@ table {
 input {
     outline: none;
 }
+
+// 颜色
+$font-link: #123555;
+
 @import "~sass-rem";
 // $rem-baseline: 10px;
-$rem-baseline: 64px;
+$rem-baseline: 75px;
 
 html {
     height: 100%;
@@ -115,6 +119,7 @@ html {
 }
 
 body {
+    height: 100%;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss">
 #app {
-    /* background: #f5f7fa; */
+    background: #f2f2f3; 
 }
 </style>
 <style lang="scss">

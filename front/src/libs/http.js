@@ -2,7 +2,7 @@
  * @Author: MengFanxu 
  * @Date: 2019-01-07 20:33:21 
  * @Last Modified by: MengFanxu
- * @Last Modified time: 2019-02-11 18:59:48
+ * @Last Modified time: 2019-02-13 17:43:34
  */
 import axios from 'axios'
 import qs from 'qs'
@@ -14,12 +14,13 @@ axios.defaults.baseURL = process.env.NODE_ENV == 'development' ? 'http://localho
 console.log('process.env.API_ROOT',process.env.NODE_ENV);
 
 export default {
-    post(url,params = {},cookies={}){
+    post(url,params = {},cookies={},config={}){
         return new Promise((reslove,reject)=>{
             axios({
                 method: 'post',
                 url,
                 data: params,
+                headers: config
                 // 下面这行会导致数据传输时是这种格式 type=1&name=2
                 // data: params ? qs.stringify(params) : {},
             }).then(res=>{

@@ -4,6 +4,7 @@ import Index from "@/components/Index";
 import AddData from "@/components/AddData";
 import AllData from "@/components/AllData";
 import UpdateData from "@/components/UpdateData";
+import Upload from "@/components/admin/Upload";
 
 Vue.use(Router);
 
@@ -28,6 +29,11 @@ export default new Router({
             path: "/updateData",
             name: "UpdateData",
             component: UpdateData
+        },
+        {
+            path: "/upload",
+            name: "AdminUpload",
+            component: Upload
         }
     ]
 });

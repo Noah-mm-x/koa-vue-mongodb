@@ -13,8 +13,11 @@ const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
 //返回结果json化
 const json = require("koa-json");
+// 上传图片
+const koaBody = require('koa-body');
 
 const getData = require("./router/get.js");
+const upload = require("./router/upload.js");
 
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
@@ -26,12 +29,14 @@ app.use(async (ctx, next) => {
     // ctx.body = ctx.request.body;
     await next();
 });
+app.use(koaBody({ multipart: true }));
 
 app.use(cors());
 app.use(bodyParser());
 app.use(json());
 
 app.use(getData.routes(), getData.allowedMethods());
+app.use(upload.routes(), upload.allowedMethods());
 
 // app.use(async ctx => {
     // ctx.body = ctx.request.body;

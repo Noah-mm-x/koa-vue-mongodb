@@ -31,6 +31,7 @@ export default {
             this.$http
                 .post(apiUrl, formData, {}, headersConfig)
                 .then(res => {
+                    console.log('red',res);
                     if (
                         res &&
                         res.data &&

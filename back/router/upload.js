@@ -28,6 +28,9 @@ router.post('/upload', async (ctx, next) => {
     const reader = fs.createReadStream(readfile.path);
     // let filePath = path.join(__dirname, '../home/website/images');
     let filePath = path.join(__dirname, '../../../images/');
+    if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath); 
+    }
     let writeFile = filePath + `${readfile.name}`;
     // 创建可写流
     const upStream = fs.createWriteStream(writeFile);

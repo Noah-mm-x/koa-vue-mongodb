@@ -29,7 +29,12 @@ app.use(async (ctx, next) => {
     // ctx.body = ctx.request.body;
     await next();
 });
-app.use(koaBody({ multipart: true }));
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 200 * 1024 * 1024 // 设置上传文件大小最大限制，默认2M
+    }
+}));
 
 app.use(cors());
 app.use(bodyParser());
@@ -39,7 +44,7 @@ app.use(getData.routes(), getData.allowedMethods());
 app.use(upload.routes(), upload.allowedMethods());
 
 // app.use(async ctx => {
-    // ctx.body = ctx.request.body;
+// ctx.body = ctx.request.body;
 // });
 
 // 在端口3000监听:

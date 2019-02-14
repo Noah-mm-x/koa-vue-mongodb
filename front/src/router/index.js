@@ -31,7 +31,7 @@ export default new Router({
             component: UpdateData
         },
         {
-            path: "/upload",
+            path: "/uploadImg",
             name: "AdminUpload",
             component: Upload
         }

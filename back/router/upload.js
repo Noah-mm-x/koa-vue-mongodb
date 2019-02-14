@@ -3,6 +3,8 @@ const Router = require("koa-router");
 const multiparty = require('koa2-multiparty');
 const fs = require("fs.promised");
 const path = require("path");
+// 状态码
+const statusCode = require('./../statusCode')
 // app.use(koaBody({
 //     multipart: true, // 支持文件上传
 //     formidable: {
@@ -24,12 +26,9 @@ router.post('/upload', async (ctx, next) => {
     const readfile = ctx.request.files.img; // 获取上传文件
     // 创建可读流
     const reader = fs.createReadStream(readfile.path);
-    let filePath = path.join(__dirname, '../../home/website/images');
-    if (!fs.existsSync(filePath)) {
-        console.log('no file path');
-        fs.mkdirSync(filePath);
-    }
-    let writeFile = filePath + `/${file.name}`;
+    // let filePath = path.join(__dirname, '../home/website/images');
+    let filePath = path.join(__dirname, '../../../images');
+    let writeFile = filePath + `/${readfile.name}`;
     // 创建可写流
     const upStream = fs.createWriteStream(writeFile);
     // 可读流通过管道写入可写流

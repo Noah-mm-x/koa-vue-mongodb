@@ -4,6 +4,7 @@ const Koa = require("koa");
 const opn = require("opn");
 // 用于打开文件
 const fs = require("fs.promised");
+const path = require("path");
 // 解决跨域
 // const cors = require("koa-cors");
 const cors = require("koa2-cors");
@@ -32,7 +33,15 @@ app.use(async (ctx, next) => {
 app.use(koaBody({
     multipart: true,
     formidable: {
-        maxFileSize: 200 * 1024 * 1024 // 设置上传文件大小最大限制，默认2M
+        maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
+        uploadDir: path.join(__dirname, '../../images/'), // 设置文件上传目录
+        keepExtensions: true, // 保持文件的后缀
+        onFileBegin: (name, file) => { // 文件上传前的设置
+            const fp = path.join(__dirname, '../../images/');
+            if (!fs.existsSync(fp)) { // 检查是否有“../../images/”文件夹
+                fs.mkdirSync(fp); // 没有就创建
+            }
+        }
     }
 }));
 

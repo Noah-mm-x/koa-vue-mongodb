@@ -10,7 +10,9 @@
         <Upload
             multiple
             type="drag"
+            :max-size="2048"
             :on-success="uploadSuccessCallback"
+            :on-exceeded-size="exceededSizeCallback"
             action="http://www.mfx55.top/api/upload"
         >
             <div style="padding: 20px 0">
@@ -58,6 +60,12 @@ export default {
                     duration: 2
                 });
             }
+        },
+        exceededSizeCallback() {
+            this.$Message.error({
+                content: "文件过2MB",
+                duration: 2
+            });
         },
         handleFocus() {
             this.$refs.data.select();

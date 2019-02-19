@@ -17,7 +17,7 @@ if ('addEventListener' in document) {
 Vue.prototype.$http = Axios;
 Vue.config.productionTip = false;
 
-import { Button, Select, Option, Input, Table, Message, Page } from 'iview';
+import { Button, Select, Option, Input, Table, Message, Page ,Upload,Icon} from 'iview';
 Vue.component('Button', Button);
 Vue.component('Select', Select);
 Vue.component('Option', Option);
@@ -25,6 +25,8 @@ Vue.component('Input', Input);
 Vue.component('Table', Table);
 Vue.component('Message', Message);
 Vue.component('Page', Page);
+Vue.component('Upload', Upload);
+Vue.component('Icon', Icon);
 Vue.prototype.$Message = Message;
 
 /* eslint-disable no-new */

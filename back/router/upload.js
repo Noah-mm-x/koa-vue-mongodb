@@ -6,41 +6,17 @@ const path = require("path");
 const koaBody = require('koa-body');
 // 状态码
 const statusCode = require('./../statusCode')
-// app.use(koaBody({
-//     multipart: true, // 支持文件上传
-//     formidable: {
-//         uploadDir: path.join(__dirname, 'public/upload/'), // 设置文件上传目录
-//         keepExtensions: true, // 保持文件的后缀
-//         maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小，缺省2M
-//         onFileBegin: (name, file) => { // 文件上传前的设置
-//             const fp = path.join(__dirname, '/home/website/images/');
-//             if (!fs.existsSync(fp)) { // 检查是否有“/home/website/images/”文件夹
-//                 fs.mkdirSync(fp); // 没有就创建
-//             }
-//             console.log(`bodyparse: name:${name}; file:${util.inspect(file)}`);
-//         }
-//     }
-// }));
-// const app = new Koa();
-// app.use(koaBody({
-//     multipart: true,
-//     formidable: {
-//         maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
-//         uploadDir: path.join(__dirname, '../../../images/'), // 设置文件上传目录
-//         keepExtensions: true, // 保持文件的后缀
-//         onFileBegin: (name, file) => { // 文件上传前的设置
-//             const fp = path.join(__dirname, '../../../images/');
-//             console.log('__dirname`',__dirname);
-//             if (!fs.existsSync(fp)) { // 检查是否有“../../images/”文件夹
-//                 fs.mkdirSync(fp); // 没有就创建
-//             }
-//         }
-//     }
-// }));
 const router = new Router();
 router.post('/upload', async (ctx, next) => {
     // 上传单个文件
-    const readfile = ctx.request.files.img; // 获取上传文件
+    const readfile = ctx.request.files && ctx.request.files.file; // 获取上传文件
+    if(!readfile){
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
     // 创建可读流
     const reader = fs.createReadStream(readfile.path);
     let filePath = path.join(__dirname, '../../../images/');
@@ -54,7 +30,10 @@ router.post('/upload', async (ctx, next) => {
     reader.pipe(upStream);
     ctx.response.body = {
         code: statusCode.SUCCESS.code,
-        msg: statusCode.SUCCESS.msg
+        msg: statusCode.SUCCESS.msg,
+        data: {
+            imgUrl: `http://www.mfx55.top/website/images/${readfile.name}`
+        }
     }
 });
 module.exports = router;

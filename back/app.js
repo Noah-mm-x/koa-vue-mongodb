@@ -34,14 +34,15 @@ app.use(koaBody({
     multipart: true,
     formidable: {
         maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
-        uploadDir: path.join(__dirname, '../../images/'), // 设置文件上传目录
-        keepExtensions: true, // 保持文件的后缀
-        onFileBegin: (name, file) => { // 文件上传前的设置
-            const fp = path.join(__dirname, '../../images/');
-            if (!fs.existsSync(fp)) { // 检查是否有“../../images/”文件夹
-                fs.mkdirSync(fp); // 没有就创建
-            }
-        }
+        // 写上下面这段会导致传到服务器两张图片
+        // uploadDir: path.join(__dirname, '../../images/'), // 设置文件上传目录
+        // keepExtensions: true, // 保持文件的后缀
+        // onFileBegin: (name, file) => { // 文件上传前的设置
+        //     const fp = path.join(__dirname, '../../images/');
+        //     if (!fs.existsSync(fp)) { // 检查是否有“../../images/”文件夹
+        //         fs.mkdirSync(fp); // 没有就创建
+        //     }
+        // }
     }
 }));
 

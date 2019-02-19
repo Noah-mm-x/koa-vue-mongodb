@@ -11,7 +11,7 @@
             multiple
             type="drag"
             :on-success="uploadSuccessCallback"
-            action="http://localhost:3000/upload"
+            action="http://www.mfx55.top/api/upload"
         >
             <div style="padding: 20px 0">
                 <Icon

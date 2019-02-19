@@ -296,65 +296,69 @@ router.post("/updateDataInsertIndex", async ctx => {
 });
 
 router.post("/pageData", async ctx => {
-    ctx.response.type = "application/json";
-    const type = ctx.request.body.type;
-    const order = ctx.request.body.order == 'asc' ? 1 : -1;
-    const body = ctx.request.body;
-    const limit = ctx.request.body.limit;
-    const current = ctx.request.body.current - 1;
-    const skip = limit * current;
+    // ctx.response.type = "application/json";
+    // const type = ctx.request.body.type;
+    // const order = ctx.request.body.order == 'asc' ? 1 : -1;
+    // const body = ctx.request.body;
+    // const limit = ctx.request.body.limit;
+    // const current = ctx.request.body.current - 1;
+    // const skip = limit * current;
 
-    let options, result, allResult;
-    // 进页面的初始数据
-    if (!body.limit || !body.current) {
-        options = {
-            limit: 10,
-        };
-        result = await switchGames.find({}, options);
-        allResult = await switchGames.find({});
-        if (result.length) {
-            ctx.response.body = {
-                code: statusCode.SUCCESS.code,
-                msg: statusCode.SUCCESS.msg,
-                data: {
-                    list: result,
-                    allDatalength: allResult.length
-                }
-            }
-        } else {
-            ctx.response.body = {
-                code: statusCode.NOT_DATA.code,
-                msg: statusCode.NOT_DATA.msg,
-            }
-        }
-        return false;
-    }
-    if(type == 'normal'){
-        options = {
-            limit: limit,
-            skip: skip
-        };
-    }else{
-        options = {
-            sort: { [type]: order },
-            limit: limit,
-            skip: skip
-        };
-    }
-    result = await switchGames.find({}, options);
-    if (result.length) {
-        ctx.response.body = {
-            code: statusCode.SUCCESS.code,
-            msg: statusCode.SUCCESS.msg,
-            data: {
-                list: result
-            }
-        }
-    } else {
-        ctx.response.body = {
-            code: statusCode.NOT_DATA.code,
-            msg: statusCode.NOT_DATA.msg,
-        }
+    // let options, result, allResult;
+    // // 进页面的初始数据
+    // if (!body.limit || !body.current) {
+    //     options = {
+    //         limit: 10,
+    //     };
+    //     result = await switchGames.find({}, options);
+    //     allResult = await switchGames.find({});
+    //     if (result.length) {
+    //         ctx.response.body = {
+    //             code: statusCode.SUCCESS.code,
+    //             msg: statusCode.SUCCESS.msg,
+    //             data: {
+    //                 list: result,
+    //                 allDatalength: allResult.length
+    //             }
+    //         }
+    //     } else {
+    //         ctx.response.body = {
+    //             code: statusCode.NOT_DATA.code,
+    //             msg: statusCode.NOT_DATA.msg,
+    //         }
+    //     }
+    //     return false;
+    // }
+    // if(type == 'normal'){
+    //     options = {
+    //         limit: limit,
+    //         skip: skip
+    //     };
+    // }else{
+    //     options = {
+    //         sort: { [type]: order },
+    //         limit: limit,
+    //         skip: skip
+    //     };
+    // }
+    // result = await switchGames.find({}, options);
+    // if (result.length) {
+    //     ctx.response.body = {
+    //         code: statusCode.SUCCESS.code,
+    //         msg: statusCode.SUCCESS.msg,
+    //         data: {
+    //             list: result
+    //         }
+    //     }
+    // } else {
+    //     ctx.response.body = {
+    //         code: statusCode.NOT_DATA.code,
+    //         msg: statusCode.NOT_DATA.msg,
+    //     }
+    // }
+    ctx.response.body = {
+        code: statusCode.NOT_DATA.code,
+        msg: statusCode.NOT_DATA.msg,
     }
 });
 module.exports = router;

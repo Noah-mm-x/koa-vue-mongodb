@@ -24,12 +24,12 @@ const upload = require("./router/upload.js");
 const app = new Koa();
 
 // 对于任何请求，app将调用该异步函数处理请求：
-app.use(async (ctx, next) => {
-    // ctx.response.type = "text/html";
-    // ctx.response.body = `首页`;
-    // ctx.body = ctx.request.body;
-    await next();
-});
+// app.use(async (ctx, next) => {
+//     // ctx.response.type = "text/html";
+//     // ctx.response.body = `首页`;
+//     // ctx.body = ctx.request.body;
+//     await next();
+// });
 app.use(koaBody({
     multipart: true,
     formidable: {

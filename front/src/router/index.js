@@ -6,6 +6,7 @@ import AllData from "@/components/AllData";
 import UpdateData from "@/components/UpdateData";
 import Upload from "@/components/admin/Upload";
 import Login from "@/components/Login";
+import Register from "@/components/Register";
 
 Vue.use(Router);
 
@@ -43,7 +44,12 @@ let router = new Router({
             path: "/login",
             name: "Login",
             component: Login
-        }
+        },
+        {
+            path: "/register",
+            name: "Register",
+            component: Register
+        },
     ]
 });
 router.beforeEach((to, from, next) => {

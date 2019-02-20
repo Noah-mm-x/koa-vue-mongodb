@@ -21,7 +21,6 @@ pre,
 form,
 fieldset,
 legend,
-button,
 input,
 textarea,
 th,
@@ -99,6 +98,9 @@ input {
 
 // 颜色
 $font-link: #123555;
+$font-title-color: #222;
+$font-text-color: #555;
+$font-assist-color: #888;
 
 @import "~sass-rem";
 // $rem-baseline: 10px;

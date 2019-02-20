@@ -19,6 +19,7 @@ const koaBody = require('koa-body');
 
 const getData = require("./router/get.js");
 const upload = require("./router/upload.js");
+const adminUser = require("./router/adminUser.js");
 
 // 创建一个Koa对象表示web app本身:
 const app = new Koa();
@@ -52,6 +53,7 @@ app.use(json());
 
 app.use(getData.routes(), getData.allowedMethods());
 app.use(upload.routes(), upload.allowedMethods());
+app.use(adminUser.routes(), adminUser.allowedMethods());
 
 // app.use(async ctx => {
 // ctx.body = ctx.request.body;

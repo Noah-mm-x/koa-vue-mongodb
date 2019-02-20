@@ -7,6 +7,8 @@ import UpdateData from "@/components/UpdateData";
 import Upload from "@/components/admin/Upload";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
+import AdminLogin from "@/components/admin/Login";
+import AdminRegister from "@/components/admin/Register";
 
 Vue.use(Router);
 
@@ -49,6 +51,16 @@ let router = new Router({
             path: "/register",
             name: "Register",
             component: Register
+        },
+        {
+            path: "/adminLogin",
+            name: "AdminLogin",
+            component: AdminLogin
+        },
+        {
+            path: "/adminRegister",
+            name: "AdminRegister",
+            component: AdminRegister
         },
     ]
 });

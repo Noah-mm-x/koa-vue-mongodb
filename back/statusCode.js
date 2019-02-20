@@ -14,6 +14,10 @@ const statusCode = {
     PARAM_ERROR:{
         code: 20,
         msg: 'param error'
+    },
+    USER_IS_ALREADY_EXISTED:{
+        code: 90,
+        msg: 'user is already existed'
     }
 }
 module.exports = statusCode;

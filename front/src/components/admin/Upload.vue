@@ -1,12 +1,5 @@
 <template>
     <div id="upload">
-        <!-- <input
-            id="img"
-            type="file"
-            multiple
-            accept="image/*"
-        />
-        <button @click="upload">点击上传</button> -->
         <Upload
             multiple
             type="drag"
@@ -70,45 +63,6 @@ export default {
         handleFocus() {
             this.$refs.data.select();
         }
-        // upload() {
-        //     const apiUrl = "/upload";
-        //     const headersConfig = {
-        //         "Content-Type": "multipart/form-data"
-        //     };
-        //     let fileList = document.querySelector("#img").files;
-        //     if (!fileList.length) {
-        //         this.$Message.error({
-        //             content: "图片不能为空",
-        //             duration: 2
-        //         });
-        //         this.loading = false;
-        //         return false;
-        //     }
-        //     let file = fileList[0];
-        //     let formData = new FormData();
-        //     formData.append("file", file, file.name);
-        //     this.$http
-        //         .post(apiUrl, formData, {}, headersConfig)
-        //         .then(res => {
-        //             console.log("red", res);
-        //             if (
-        //                 res &&
-        //                 res.data &&
-        //                 res.data.code &&
-        //                 res.data.code == 1
-        //             ) {
-        //                 console.log("111");
-        //                 const data = res.data.data;
-        //                 this.imgUrl = data.imgUrl;
-        //                 console.log("data", data.imgUrl);
-        //             } else {
-        //                 console.log("22");
-        //             }
-        //         })
-        //         .catch(err => {
-        //             console.log("err", err);
-        //         });
-        // }
     }
 };
 </script>

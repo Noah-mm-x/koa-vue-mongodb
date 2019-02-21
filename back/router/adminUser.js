@@ -43,5 +43,32 @@ router.post("/adminRegister", async ctx => {
         }
     }
 });
+router.post("/adminLogin", async ctx => {
+    const name = ctx.request.body && ctx.request.body.name;
+    const pwd = ctx.request.body && ctx.request.body.pwd;
+    ctx.response.type = "application/json";
+    if (!name || !pwd) {
+        ctx.response.body = {
+            code: statusCode.PARAM_ERROR.code,
+            msg: statusCode.PARAM_ERROR.msg
+        }
+        return false;
+    }
+    const result = await userInfo.find({
+        name: name,
+        pwd: pwd
+    });
+    if (result.length) {
+        ctx.response.body = {
+            code: statusCode.SUCCESS.code,
+            msg: statusCode.SUCCESS.msg
+        }
+    } else {
+        ctx.response.body = {
+            code: statusCode.NOT_DATA.code,
+            msg: statusCode.NOT_DATA.msg
+        }
+    }
+});
 module.exports = router;
 

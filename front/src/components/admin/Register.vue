@@ -77,6 +77,7 @@ export default {
                     content: "名字不能为空",
                     duration: 2
                 });
+                this.loading = false;
                 return false;
             }
             if (!this.pwd) {
@@ -84,6 +85,7 @@ export default {
                     content: "密码不能为空",
                     duration: 2
                 });
+                this.loading = false;
                 return false;
             }
             if (!this.repwd) {
@@ -91,6 +93,7 @@ export default {
                     content: "确认密码不能为空",
                     duration: 2
                 });
+                this.loading = false;
                 return false;
             }
             if(this.pwd != this.repwd){
@@ -98,6 +101,7 @@ export default {
                     content: "两个密码不一致",
                     duration: 2
                 });
+                this.loading = false;
                 return false;
             }
 

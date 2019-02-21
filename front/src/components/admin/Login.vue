@@ -3,6 +3,7 @@
         <div class="wrap">
             <div class="title">admin登录</div>
             <Input
+                v-model="name"
                 class="input"
                 placeholder="请输入名字"
                 style="width: 400px"
@@ -13,6 +14,7 @@
             />
             </Input>
             <Input
+                v-model="pwd"
                 type="password"
                 class="input"
                 placeholder="请输入密码"
@@ -37,13 +39,74 @@
                     class="btn"
                     type="primary"
                     size="large"
+                    @click="handleLogin"
                 >登录</Button>
             </div>
         </div>
     </div>
 </template>
 <script>
-export default {};
+import md5 from "js-md5";
+export default {
+    data() {
+        return {
+            name: "",
+            pwd: "",
+            loading: false
+        };
+    },
+    methods: {
+        handleLogin() {
+            if (this.loading) return false;
+            this.loading = true;
+            if (!this.name) {
+                this.$Message.error({
+                    content: "名字不能为空",
+                    duration: 2
+                });
+                this.loading = false;
+                return false;
+            }
+            if (!this.pwd) {
+                this.$Message.error({
+                    content: "密码不能为空",
+                    duration: 2
+                });
+                this.loading = false;
+                return false;
+            }
+            const apiUrl = "/adminLogin";
+            const params = {
+                name: this.name,
+                pwd: md5(this.pwd)
+            };
+            this.$http
+                .post(apiUrl, params)
+                .then(res => {
+                    if (
+                        res &&
+                        res.data &&
+                        res.data.code &&
+                        res.data.code == 1
+                    ) {
+                        this.loading = false;
+                        this.$Message.success({
+                            content: "登录成功"
+                        });
+                    } else {
+                        this.loading = false;
+                        this.$Message.error({
+                            content: res.data.msg,
+                            duration: 2
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log("err", err);
+                });
+        }
+    }
+};
 </script>
 <style lang="scss" scoped>
 @import "./src/assets/css/common.scss";

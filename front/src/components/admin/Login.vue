@@ -19,6 +19,7 @@
                 class="input"
                 placeholder="请输入密码"
                 style="width: 400px"
+                @on-enter="handleLogin"
             >
             <Icon
                 type="md-lock"
@@ -72,35 +73,6 @@ export default {
                 });
                 return false;
             }
-            // const apiUrl = "/adminLogin";
-            // const params = {
-            //     name: this.name,
-            //     pwd: md5(this.pwd)
-            // };
-            // this.$http
-            //     .post(apiUrl, params)
-            //     .then(res => {
-            //         if (
-            //             res &&
-            //             res.data &&
-            //             res.data.code &&
-            //             res.data.code == 1
-            //         ) {
-            //             this.loading = false;
-            //             this.$Message.success({
-            //                 content: "登录成功"
-            //             });
-            //         } else {
-            //             this.loading = false;
-            //             this.$Message.error({
-            //                 content: res.data.msg,
-            //                 duration: 2
-            //             });
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log("err", err);
-            //     });
             this.$store.dispatch('adminUserLogin',{name:this.name,pwd:this.pwd})
         }
     }

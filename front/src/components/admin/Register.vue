@@ -31,6 +31,7 @@
                 class="input"
                 placeholder="确认密码"
                 style="width: 400px"
+                @on-enter="handleRegister"
             >
             <Icon
                 type="md-lock"

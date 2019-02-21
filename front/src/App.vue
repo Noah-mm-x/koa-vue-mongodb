@@ -10,7 +10,6 @@ import publicHeader from "../src/components/common/Header";
 export default {
     name: "App",
     mounted(){
-        console.log('',this.$route.name);
     },  
     computed:{
         isAdmin(){

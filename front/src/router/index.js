@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Axios from "../libs/http"
 import Router from "vue-router";
 import Index from "@/components/Index";
 import AddData from "@/components/AddData";
@@ -67,10 +68,47 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
     const isRequireAuth = to.matched.some(item => { return item.meta.requireAuth });
     if (isRequireAuth) {
-        next({
-            path: "/login",
-            query: { r: to.fullPath }
-        })
+        const name = localStorage.getItem('adminUserName')
+        const pwd = localStorage.getItem('adminUserPwd')
+        const apiUrl = '/adminLogin'
+        const params = {
+            name: name,
+            pwd: pwd
+        };
+        if(name && pwd){
+            next()
+        }else{
+            next({
+                path: "/adminLogin",
+                query: { r: to.fullPath }
+            })
+        }
+        // next不能异步
+        // Axios.post(apiUrl, params)
+        //     .then(res => {
+        //         if (
+        //             res &&
+        //             res.data &&
+        //             res.data.code &&
+        //             res.data.code == 1
+        //         ) {
+        //             next()
+        //         } else {
+        //             next({
+        //                 path: "/adminLogin",
+        //                 query: { r: to.fullPath }
+        //             })
+        //             $Message.error({
+        //                 content: res.data.msg,
+        //                 duration: 2
+        //             });
+        //         }
+        //     })
+        //     .catch(err => {
+        //         next()
+        //         console.log("err", err);
+        //     });
+
     } else {
         next()
     }

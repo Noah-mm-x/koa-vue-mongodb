@@ -56,9 +56,11 @@ export default {
             loading: false
         };
     },
+    mounted() {
+        console.log("this", this.$route.query.r);
+    },
     methods: {
         handleLogin() {
-            console.log('this.$store',this.$store);
             if (!this.name) {
                 this.$Message.error({
                     content: "名字不能为空",
@@ -73,7 +75,18 @@ export default {
                 });
                 return false;
             }
-            this.$store.dispatch('adminUserLogin',{name:this.name,pwd:this.pwd})
+            this.$store.dispatch("adminUserLogin", {
+                name: this.name,
+                pwd: this.pwd
+            });
+            this.handleLink();
+        },
+        handleLink(){
+            if (this.$route.query.r) {
+                this.$router.push({
+                    path: this.$route.query.r
+                });
+            }
         }
     }
 };

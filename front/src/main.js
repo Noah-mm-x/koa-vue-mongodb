@@ -6,6 +6,10 @@ import router from "./router";
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import Axios from "./libs/http"
+import Vuex from 'vuex';
+Vue.use(Vuex);
+
+import store from "./store/store"
 
 import FastClick from 'fastclick'
 if ('addEventListener' in document) {
@@ -33,6 +37,7 @@ Vue.prototype.$Message = Message;
 new Vue({
     el: "#app",
     router,
+    store,
     components: { App },
     template: "<App/>"
 });
